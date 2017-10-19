@@ -91,5 +91,15 @@ namespace PrimeNumbersTests
             var result = primeService.GetPrimesInRange(1,3);
             Assert.Collection(result, item => Assert.Equal(2,item), item => Assert.Equal(3,item));
         }
+
+        [Theory]
+        [InlineData(1,5,new int[] {2,3,5})]
+        [InlineData(10,20,new int[] {11,13,17,19})]
+        [InlineData(170,200,new int[] {173,179,181,191,193,197,199})]
+        public void ForRangeFromAtoBReturnArraOfItemsC(int a, int b, int[] c)
+        {
+            var result = primeService.GetPrimesInRange(a,b);
+            Assert.Equal<int[]>(c, result);
+        }
     }
 }
