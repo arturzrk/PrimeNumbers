@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PrimeNumbers
 {
@@ -30,5 +31,9 @@ namespace PrimeNumbers
             return resultList.ToArray();
         }
         
+        public async Task<int[]> GetPrimesInRangeAsync(int from, int to)
+        {
+            return await Task.Run(()=> GetPrimesInRange(from,to));
+        }
     }
 }

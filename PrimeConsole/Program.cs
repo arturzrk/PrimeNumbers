@@ -16,18 +16,28 @@ namespace PrimeConsole
 
         public static async Task AsyncMain(string[] args)
         {
-            await PrintPrimesAsync();
-            for(int i = 1; i<=10; i++)
+            PrimeService primes = new PrimeService();
+            Task<int[]> primeGenerator = primes.GetPrimesInRangeAsync(1000, 1000000);
+            Console.Write("Elapsed Time ... ");
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            while( !primeGenerator.IsCompleted)
             {
-                Console.WriteLine(".");
+                Console.CursorLeft = 31;
+                Console.Write(stopwatch.ElapsedMilliseconds);
             }
+            Console.WriteLine();
+            int[] primeNumbers = await primeGenerator;
+            for (int i = 0; i < primeNumbers.Length; i++)
+                Console.Write("p[{0}]={1}. ", i, primeNumbers[i]);
+            Console.WriteLine();
         }
         public static async Task PrintPrimesAsync()
         {
             PrimeService primes = new PrimeService();
             Console.WriteLine("Hello World!");
             Console.WriteLine("Prime numbers less than 100 are:");
-            int[] numbers = await Task.Run(()=> primes.GetPrimesInRange(1,1000));
+            await Task.Delay(100000);
+            int[] numbers = await Task.Run(()=> primes.GetPrimesInRange(100000,200000));
             for(int i = 0; i < numbers.Length; i++)
                 Console.Write(numbers[i] + ", ");
         }
